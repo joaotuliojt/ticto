@@ -1,0 +1,22 @@
+@use "../../styles/theme/colors" as *;
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 2rem;
+  height: 2.8rem;
+  gap: 0.5rem;
+  font-size: 1.2rem;
+  border: none;
+  border-radius: 0.25rem;
+  background-color: $purple;
+  cursor: pointer;
+  color: $white;
+  transition: all 0.3s ease;
+  &:hover {
+    filter: brightness(0.9);
+  }
+  &:active {
+    filter: brightness(0.8);
+  }
+}

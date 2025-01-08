@@ -1,0 +1,22 @@
+@use "../../styles/theme/colors" as *;
+@use "../../styles/utils/mixins" as *;
+.container {
+  width: 100%;
+  padding: 2rem 1rem 10rem 1rem;
+  background-color: $purple;
+  @include media(480px) {
+    padding: 2rem 1rem;
+    padding-bottom: 4rem;
+  }
+}
+
+.container > div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  @include container;
+  @include media(480px) {
+    flex-direction: column;
+    gap: 1rem;
+  }
+}
