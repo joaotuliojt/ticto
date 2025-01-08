@@ -1,0 +1,8 @@
+@use "../../styles/theme/colors" as *;
+.error_label {
+  color: $red;
+  font-size: 0.7rem;
+  margin-top: 0.4rem;
+  font-weight: 500;
+  display: block;
+}

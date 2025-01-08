@@ -20,3 +20,9 @@
     filter: brightness(0.8);
   }
 }
+
+.button--outline {
+  background-color: $white;
+  border: 1px solid $gray-400;
+  color: $gray-400;
+}

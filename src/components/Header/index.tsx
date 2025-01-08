@@ -1,8 +1,7 @@
 import Link from "next/link";
-import { Button } from "../Button";
 import styles from "./styles.module.scss";
 import Image from "next/image";
-import { Plus } from "@phosphor-icons/react/dist/ssr";
+import { AddBalanceModal } from "../AddBalanceModal";
 export function Header() {
   return (
     <header className={styles.container}>
@@ -15,10 +14,7 @@ export function Header() {
             alt={"Logo Ticto"}
           />
         </Link>
-        <Button style={{ backgroundColor: "#401A9B" }}>
-          <Plus width={16} height={16} weight="bold" />
-          Nova transação
-        </Button>
+        <AddBalanceModal />
       </div>
     </header>
   );
