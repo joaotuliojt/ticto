@@ -10,7 +10,6 @@ export function BalanceTable() {
           <th>Valor</th>
           <th>Categoria</th>
           <th>Data</th>
-          <th>Ações</th>
         </tr>
       </thead>
       <tbody>
