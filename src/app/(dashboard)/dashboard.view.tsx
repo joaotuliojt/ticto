@@ -1,3 +1,4 @@
+import { BalanceTable } from "@/components/BalanceTable";
 import styles from "./styles.module.scss";
 import { Card } from "@/components/Card";
 import { Header } from "@/components/Header";
@@ -38,6 +39,7 @@ export function DashboardView() {
           value={300}
         />
       </div>
+      <BalanceTable />
     </main>
   );
 }
