@@ -1,36 +1,46 @@
 "use client";
-import {
-  ArrowCircleUp,
-  X,
-  ArrowCircleDown,
-  Plus,
-} from "@phosphor-icons/react/dist/ssr";
+import { X, Plus } from "@phosphor-icons/react/dist/ssr";
 import styles from "./styles.module.scss";
 import * as Dialog from "@radix-ui/react-dialog";
 import { Input } from "../Input";
 import { Button } from "../Button";
-import buttonStyles from "../Button/styles.module.scss";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AddBalanceFormData, addBalanceSchema } from "./schema";
 import { ErrorLabel } from "../ErrorLabel";
 import * as RadioGroup from "@radix-ui/react-radio-group";
+import { useBalance } from "@/contexts/BalanceContext";
+import { useState } from "react";
+import { balanceTypeOptions } from "./constants";
 
 export function AddBalanceModal() {
+  const [open, setOpen] = useState(false);
+  const { onAddBalance } = useBalance();
   const {
     register,
     handleSubmit,
+    control,
     formState: { errors },
+    reset,
   } = useForm<AddBalanceFormData>({
     resolver: zodResolver(addBalanceSchema),
   });
 
-  const handleAddBalance = (data: AddBalanceFormData) => {
-    console.log(data);
-  };
+  console.log(errors);
 
+  const handleAddBalance = (data: AddBalanceFormData) => {
+    onAddBalance({
+      category: data.category,
+      description: data.name,
+      date: new Date(),
+      type: data.type,
+      value: Number(data.price),
+    });
+    reset();
+    setOpen(false);
+  };
   return (
-    <Dialog.Root>
+    <Dialog.Root open={open} onOpenChange={setOpen}>
       <Dialog.Trigger asChild>
         <Button style={{ backgroundColor: "#401A9B" }}>
           <Plus width={16} height={16} weight="bold" />
@@ -65,44 +75,42 @@ export function AddBalanceModal() {
               )}
             </div>
             <div>
-              <RadioGroup.Root
-                defaultValue="input"
-                className={styles.RadioGroup}
-              >
-                <RadioGroup.Item
-                  className={`${styles.RadioOption} ${buttonStyles.button} ${buttonStyles["button--outline"]}`}
-                  value="input"
-                >
-                  <RadioGroup.Indicator
-                    className={styles.RadioIndicator}
-                    style={{ backgroundColor: "#06d6a21d" }}
-                  />
-                  <ArrowCircleUp
-                    width={24}
-                    height={24}
-                    color="#06d6a2"
-                    weight="regular"
-                  />
-                  Entrada
-                </RadioGroup.Item>
-                <RadioGroup.Item
-                  id="output"
-                  value="output"
-                  className={`${styles.RadioOption} ${buttonStyles.button} ${buttonStyles["button--outline"]}`}
-                >
-                  <RadioGroup.Indicator
-                    className={styles.RadioIndicator}
-                    style={{ backgroundColor: "#e2316028" }}
-                  />
-                  <ArrowCircleDown
-                    width={24}
-                    height={24}
-                    color="#e23161"
-                    weight="regular"
-                  />
-                  Saída
-                </RadioGroup.Item>
-              </RadioGroup.Root>
+              <Controller
+                name="type"
+                control={control}
+                render={({ field }) => (
+                  <RadioGroup.Root
+                    defaultValue="input"
+                    className={styles.RadioGroup}
+                    value={field.value}
+                    onValueChange={(value) => field.onChange(value)}
+                  >
+                    {balanceTypeOptions.map((option) => {
+                      const Icon = option.icon;
+                      return (
+                        <RadioGroup.Item
+                          key={option.value}
+                          className={styles.RadioOption}
+                          value={option.value}
+                          id={option.value}
+                        >
+                          <RadioGroup.Indicator
+                            className={styles.RadioIndicator}
+                            style={{ backgroundColor: option.activeColor }}
+                          />
+                          <Icon
+                            width={24}
+                            height={24}
+                            color={option.color}
+                            weight="regular"
+                          />
+                          <span id="label">{option.label}</span>
+                        </RadioGroup.Item>
+                      );
+                    })}
+                  </RadioGroup.Root>
+                )}
+              />
             </div>
             <div>
               <Input placeholder="Categoria" {...register("category")} />

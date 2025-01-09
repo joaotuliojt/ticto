@@ -1,10 +1,13 @@
+"use client";
 import { BalanceTable } from "@/components/BalanceTable";
 import styles from "./styles.module.scss";
 import { Card } from "@/components/Card";
 import { Header } from "@/components/Header";
 import { ArrowDownLeft, ArrowUpRight } from "@phosphor-icons/react/dist/ssr";
+import { useBalance } from "@/contexts/BalanceContext";
 
 export function DashboardView() {
+  const { outputs, inputs, total } = useBalance();
   return (
     <main>
       <Header />
@@ -19,7 +22,7 @@ export function DashboardView() {
             />
           }
           title="Entradas"
-          value={300}
+          value={inputs}
         />
         <Card
           icon={
@@ -31,12 +34,12 @@ export function DashboardView() {
             />
           }
           title="Saídas"
-          value={300}
+          value={outputs}
         />
         <Card
           style={{ color: "white", background: "#06d6a2" }}
           title="Saldo Total"
-          value={300}
+          value={total}
         />
       </div>
       <BalanceTable />

@@ -1,4 +1,5 @@
 import {z} from "zod"
+import { BalanceType } from "./types";
 
 const messages = {
   required: "Campo obrigatório",
@@ -7,7 +8,7 @@ const messages = {
 export const addBalanceSchema = z.object({
   name: z.string().nonempty({message: messages.required}),
   price: z.string().nonempty({message: messages.required}),
-  type: z.enum(["input", "output"]),
+  type: z.nativeEnum(BalanceType),
   category: z.string().nonempty({message: messages.required}),
 })
 
