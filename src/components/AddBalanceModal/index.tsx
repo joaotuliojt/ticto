@@ -12,6 +12,7 @@ import * as RadioGroup from "@radix-ui/react-radio-group";
 import { useBalance } from "@/contexts/BalanceContext";
 import { useState } from "react";
 import { balanceTypeOptions } from "./constants";
+import { BalanceType } from "./types";
 
 export function AddBalanceModal() {
   const [open, setOpen] = useState(false);
@@ -24,9 +25,10 @@ export function AddBalanceModal() {
     reset,
   } = useForm<AddBalanceFormData>({
     resolver: zodResolver(addBalanceSchema),
+    defaultValues: {
+      type: BalanceType.INPUT,
+    },
   });
-
-  console.log(errors);
 
   const handleAddBalance = (data: AddBalanceFormData) => {
     onAddBalance({
@@ -69,7 +71,12 @@ export function AddBalanceModal() {
               )}
             </div>
             <div>
-              <Input type="number" placeholder="Preço" {...register("price")} />
+              <Input
+                type="number"
+                step={"0.01"}
+                placeholder="Preço"
+                {...register("price", { valueAsNumber: true })}
+              />
               {errors.price?.message && (
                 <ErrorLabel message={errors.price.message} />
               )}
